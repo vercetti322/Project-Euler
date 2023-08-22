@@ -1,29 +1,14 @@
 # What is the largest prime factor of 600851475143?
-   
-def max_prime(threshould):
-    '''
-    input : the number
-    output : list of all prime numbers which upto that number in sorted order
-    Algorithm : sieve of erastothenes
-    '''
-    prime_list = {}
-    for i in range(2, threshould + 1):
-        prime_list[i] = True
-    
-    k = 2
-    while k * k <= threshould:
-        if prime_list[k] == True:
-            for composite in range(k * k, threshould + 1, k):
-                prime_list[composite] = False
-        k += 1
-        
-    largest_prime_factor = 2
-    for i in range(threshould, 2, -1):
-        if prime_list[i] and threshould % i == 0:
-            largest_prime_factor = i
-            break
-            
-    return largest_prime_factor
 
+def max_prime(threshould, divisor=2):
+    if threshould == 1:
+        return []
+    
+    while threshould % divisor != 0:
+        divisor += 1
+    
+    return [divisor] + max_prime(threshould // divisor, divisor)
+    
+    
 input = 600851475143
-print(max_prime(input))
+print(max(max_prime(input)))
